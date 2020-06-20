@@ -1,4 +1,4 @@
-cabal-version: 1.12
+cabal-version:  2.2
 name:           hapture
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/hapture#readme>
@@ -7,19 +7,19 @@ bug-reports:    https://github.com/githubuser/hapture/issues
 author:         Author name here
 maintainer:     example@example.com
 copyright:      2020 Author name here
-license:        BSD3
+license:        BSD-3-Clause
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
-    README.md
-    ChangeLog.md
+    README.org
+    ChangeLog.org
 
 source-repository head
   type: git
   location: https://github.com/githubuser/hapture
 
 common base
-  ghc-options: -Wall -Wextra -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -Wextra
   default-language: Haskell2010
   build-depends: base >= 4.12 && < 5
 
@@ -41,16 +41,22 @@ common deps-io
     , monadIO
     , mwc-random
 
+common deps-webserver
+  build-depends:
+    , servant
+    , servant-server
+    , aeson
+    , warp
+    , katip
+
 common commondeps
-  import: deps-io, deps-datastructs
+  import: deps-io, deps-datastructs, deps-webserver
   build-depends:
       hashable
     , lens
     , recursion-schemes
     , safe-exceptions
     , singletons
-    , servant
-    , servant-server
 
 library
   import: base, commondeps
@@ -58,29 +64,29 @@ library
   exposed-modules:
       Lib
   other-modules:
-      Paths_possibly
+      Paths_hapture
 
 executable hapture
   import: base, commondeps
   main-is: Main.hs
   other-modules: Paths_hapture
   hs-source-dirs: server
-  build-depends: hapture
-
-executable hapture-firefox
-  import: base, commondeps
-  main-is: Main.hs
-  other-modules: Paths_hapture
-  hs-source-dirs: firefox
-  build-depends: hapture
-
-test-suite hapture-test
-  type: exitcode-stdio-1.0
-  import: base, commondeps
-  main-is: Spec.hs
-  other-modules: Paths_hapture
-  hs-source-dirs: test
+  ghc-options: -threaded -rtsopts  -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
-    , hapture
-  default-language: Haskell2010
+      hapture
+
+-- executable hapture-firefox
+--   import: base, commondeps
+--   main-is: Main.hs
+--   other-modules: Paths_hapture
+--   hs-source-dirs: firefox
+--   build-depends: hapture
+--
+-- test-suite hapture-test
+--   type: exitcode-stdio-1.0
+--   import: base, commondeps
+--   main-is: Spec.hs
+--   other-modules: Paths_hapture
+--   hs-source-dirs: test
+--   build-depends: hapture
+--
