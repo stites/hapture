@@ -69,7 +69,7 @@ library
 executable hapture
   import: base, commondeps
   main-is: Main.hs
-  other-modules: Paths_hapture
+  other-modules: Paths_hapture, App
   hs-source-dirs: server
   ghc-options: -threaded -rtsopts  -with-rtsopts=-N
   build-depends:

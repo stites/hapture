@@ -1,6 +1,34 @@
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE KindSignatures #-}
 module Lib
-    ( someFunc
+    ( WebLink(..)
+    , API, api
     ) where
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+import Data.Aeson
+import GHC.Generics
+import Servant
+import Data.Text (Text)
+
+data WebLink = WebLink
+  { url   :: !Text
+  , title :: !Text
+  , selection :: !( Maybe Text )
+  , comment :: !( Maybe Text )
+  , tags :: ![Text]
+  } deriving stock (Eq, Show, Generic)
+    deriving anyclass (FromJSON)
+
+type API
+  =    "heartbeat" :> Get '[JSON] Text -- /heartbeat GET
+  :<|> "org" :> "capture" :> ReqBody '[JSON] WebLink :> Post '[JSON] Text -- /org/capture POST
+  -- :<|> "org" :> "ref" :> ReqBody '[JSON] WebLink :> Post '[JSON] Text
+
+api :: Proxy API
+api = Proxy
