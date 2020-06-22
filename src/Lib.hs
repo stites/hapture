@@ -7,7 +7,7 @@
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE KindSignatures #-}
 module Lib
-    ( WebLink(..)
+    ( WebLink(..), Response(..)
     , API, api
     ) where
 
@@ -23,11 +23,17 @@ data WebLink = WebLink
   , comment :: !( Maybe Text )
   , tags :: ![Text]
   } deriving stock (Eq, Show, Generic)
-    deriving anyclass (FromJSON)
+    deriving anyclass (FromJSON, ToJSON)
+
+data Response = Response
+  { path :: Text
+  , status :: Text
+  } deriving stock (Eq, Show, Generic)
+    deriving anyclass (FromJSON, ToJSON)
 
 type API
   =    "heartbeat" :> Get '[JSON] Text -- /heartbeat GET
-  :<|> "org" :> "capture" :> ReqBody '[JSON] WebLink :> Post '[JSON] Text -- /org/capture POST
+  :<|> "capture" :> ReqBody '[JSON] WebLink :> Post '[JSON] Response -- /org/capture POST
   -- :<|> "org" :> "ref" :> ReqBody '[JSON] WebLink :> Post '[JSON] Text
 
 api :: Proxy API

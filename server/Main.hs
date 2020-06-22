@@ -19,14 +19,22 @@ import App
 main :: IO ()
 main = do
   handleScribe <- K.mkHandleScribe ColorIfTerminal stdout (permitItem InfoS) V2
-  let mkLogEnv = registerScribe "stdout" handleScribe defaultScribeSettings =<< initLogEnv initialNamespace env
+ 
+  let mkLogEnv = initLogEnv initialNamespace env
+               >>= registerScribe "stdout" handleScribe defaultScribeSettings
+              
   bracket mkLogEnv closeScribes $ \logenv -> do
     startupMsg logenv
     runApp logenv
  
   where
+    mkLogEnv = do
+      handleScribe <- K.mkHandleScribe ColorIfTerminal stdout (permitItem InfoS) V2
+      initialLE <- initLogEnv initialNamespace env
+      registerScribe "stdout" handleScribe defaultScribeSettings initialLE
+
     port :: Int
-    port = 8080
+    port = 10046 -- IO Org
 
     initialNamespace :: Namespace
     initialNamespace = "local"
@@ -56,17 +64,17 @@ app s = serve api $ hoistServer api (nt s) server
     nt :: Config -> App a -> Handler a
     nt s x = runReaderT (unApp x) s
 
-orgCapture :: WebLink -> App Text
+orgCapture :: WebLink -> App Response
 orgCapture link = do
-  logFM InfoS "POST org/capture"
-  pure "org-capture"
+  logFM InfoS . ls $ "POST to /capture with data: " <> show link
+  pure $ Response "/it/is/a/path.org" "ok"
 
 orgRef :: App Text
 orgRef = do
-  logFM InfoS "POST org/ref"
+  logFM InfoS "POST /ref"
   pure "org-ref"
 
 heartbeat :: App Text
 heartbeat = do
-  logFM InfoS "GET heartbeat"
+  logFM InfoS "GET /heartbeat"
   pure "ok"

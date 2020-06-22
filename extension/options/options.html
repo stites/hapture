@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style> input:invalid {background-color: red;} </style>
+  <script src="options.js"></script>
+</head>
+<body>
+  <fieldset>
+    <legend>Endpoint</legend>
+    <input pattern="http?://.*" id='endpoint_id'/>
+    <div id='has_permission_id' style="display: none; color: red">
+        No permission to access the endpoint. Will request when you press "Save".
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Default tags</legend>
+    <!-- <label for="default_tags_id">Default tags</label> -->
+    <div><input type="text" id="default_tags_id" /></div>
+  </fieldset>
+  <p>
+    <input type="checkbox"  id="notification_id" />
+    <label for="notification_id">Notification after capture</label>
+  </p>
+  <div><button id="save_id">Save</button></div>
+
+</body>
+</html>
