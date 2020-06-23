@@ -1,0 +1,12 @@
+#+TITLE: Todo
+* TODO re-introduce [[https://github.com/oduwsdl/archivenow][archivenow]] functionality with [[https://hackage.haskell.org/package/req][req]]
+* TODO package with nix (haskell.nix and niv? check out nix branch)
+* TODO add home-manager service module
+* TODO rewrite frontend in purescript like MyArx (or use GHCJS)?
+* TODO bibtex integration
+** TODO add frontend option to "save to bibtex" instead of org file
+** TODO convert weblinks into bibtex entries
+** TODO append bibtex entries to file
+** TODO extract bibtex entries org-ref-style
+** TODO save PDFs to biblio folder
+** TODO save web archives in the same style as [[https://github.com/leonkt/zotero-memento/][zotero-momento]]
