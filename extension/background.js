@@ -122,7 +122,8 @@ function capture(comment, tags) {
             browser.tabs.executeScript( {
                 code: "window.getSelection().toString();"
             }, selections => {
-                const selection = selections == null ? null : selections[0];
+                const selection = selections === null ||  selections[0] === "" ? null : selections[0];
+
                 //postOrgCapture(opts.endpoint, {
                 //    url: url,
                 //    title: title,

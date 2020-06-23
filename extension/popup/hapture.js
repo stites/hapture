@@ -43,7 +43,10 @@ function load_state() { // () -> State
 function getCommentEl() {
     return document.getElementById(COMMENT_ID);
 }
-function getComment() {return getCommentEl().value;}
+function getComment() {
+    const comment_str = getCommentEl().value;
+    return comment_str === "" ? null : comment_str;
+}
 
 function getTagsEl(){ // () -> HTMLInputElement
     return document.getElementById(TAGS_ID);

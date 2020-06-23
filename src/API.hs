@@ -6,7 +6,7 @@
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE KindSignatures #-}
-module Lib
+module API
     ( WebLink(..), Response(..)
     , API, api
     ) where

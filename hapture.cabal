@@ -57,31 +57,37 @@ common commondeps
     , recursion-schemes
     , safe-exceptions
     , singletons
+    , orgmode-parse < 0.3
 
 library
   import: base, commondeps
   hs-source-dirs: src
   exposed-modules:
-      Lib
+      API
+      Template
   other-modules:
       Paths_hapture
 
 executable hapture
   import: base, commondeps
   main-is: Main.hs
-  other-modules: Paths_hapture, App
+  other-modules: Paths_hapture, App, Logging, Routes, Config
   hs-source-dirs: server
   ghc-options: -threaded -rtsopts  -with-rtsopts=-N
   build-depends:
       hapture
+    , optparse-applicative
+    , optparse-text
 
--- executable hapture-firefox
---   import: base, commondeps
---   main-is: Main.hs
---   other-modules: Paths_hapture
---   hs-source-dirs: firefox
---   build-depends: hapture
---
+executable hapture-firefox
+  import: base, commondeps
+  main-is: Main.hs
+  other-modules: Paths_hapture
+  hs-source-dirs: extension
+  build-depends: hapture
+    , blaze-html
+    , servant-js
+
 -- test-suite hapture-test
 --   type: exitcode-stdio-1.0
 --   import: base, commondeps

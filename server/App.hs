@@ -8,26 +8,37 @@ import Data.Text (Text)
 import Control.Monad.Reader (ReaderT(..))
 import Control.Monad.Reader.Class (MonadReader, local, ask)
 import Control.Monad.IO.Class (MonadIO, liftIO)
-import Control.Lens (makeLenses, over, view)
+import Control.Lens (makeLensesFor, over, view)
 import Katip (LogEnv, Namespace, LogContexts)
 import qualified Katip as K
 
+import Logging
 
-data Config = Config
-  { _logNamespace :: !Namespace
-  , _logContext :: !LogContexts
-  , _logEnv :: !LogEnv
+data Environment = Environment
+  { logNamespace :: !Namespace
+  , logContext :: !LogContexts
+  , logEnv :: !LogEnv
   -- whatever other read-only config you need
-  , _environment   :: !( Maybe Text )
-  , _version       :: !( Maybe Text )
+  , version :: !( Maybe Text )
+  , path :: !Text
   } -- deriving (Generic, Show)
 
-makeLenses ''Config
+defaultEnvironment :: Text -> LogEnv -> Environment
+defaultEnvironment p le = Environment initialNamespace initialContext le Nothing p
 
-newtype App a = App { unApp :: ReaderT Config Handler a }
+makeLensesFor
+  [ ("logNamespace", "logNamespaceL")
+  , ("logContext", "logContextL")
+  , ("logEnv", "logEnvL")
+  , ("environment", "environmentL")
+  , ("version", "versionL")
+  , ("path", "pathL")
+  ] ''Environment
+
+newtype App a = App { unApp :: ReaderT Environment Handler a }
   deriving (Functor)
 
-instance MonadReader Config App where
+instance MonadReader Environment App where
   ask = App ask
   local f (App rt) = App $ local f rt
 
@@ -45,11 +56,11 @@ instance Applicative App where
 
 -- These instances get even easier with lenses!
 instance K.Katip App where
-  getLogEnv = view logEnv
-  localLogEnv f (App m) = App (local (over logEnv f) m)
+  getLogEnv = view logEnvL
+  localLogEnv f (App m) = App (local (over logEnvL f) m)
 
 instance K.KatipContext App where
-  getKatipContext = view logContext
-  localKatipContext f (App m) = App (local (over logContext f) m)
-  getKatipNamespace = view logNamespace
-  localKatipNamespace f (App m) = App (local (over logNamespace f) m)
+  getKatipContext = view logContextL
+  localKatipContext f (App m) = App (local (over logContextL f) m)
+  getKatipNamespace = view logNamespaceL
+  localKatipNamespace f (App m) = App (local (over logNamespaceL f) m)
