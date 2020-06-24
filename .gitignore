@@ -140,3 +140,5 @@ tags
 # End of https://www.toptal.com/developers/gitignore/api/emacs,vim,haskell,linux,osx
 stack.yaml.lock
 extension/hapture.zip
+_build
+_shake
