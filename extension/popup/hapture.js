@@ -78,8 +78,8 @@ function restoreState(state) { // Maybe State -> IO ()
             console.log(opts);
         });
     } else {
-        getComment().value = state.comment;
-        getTags().value    = state.tags.join(", ");
+        getCommentEl().value = state.comment;
+        getTagsEl().value    = state.tags.join(", ");
     }
 }
 
