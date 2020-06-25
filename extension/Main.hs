@@ -8,7 +8,8 @@ import Text.Blaze.Html5 (Html, AttributeValue, (!), button, textarea, body, docT
 import Text.Blaze.Html5.Attributes (type_, cols, placeholder, rows, lang, for, src, charset)
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
-import qualified Data.Text.IO as T (writeFile)
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
 import qualified Data.Text.Lazy as TL
 import Text.Blaze.Html.Renderer.Text (renderHtml)
 
@@ -18,14 +19,18 @@ import Data.Port
 main :: IO ()
 main = do
   -- writeHTMLFiles
-  writeJSFiles
+  writeJSFiles (mkPort 10046)
 
-apiJS :: Text
-apiJS = jsForAPI api vanillaJS
+apiJS :: Port -> Text
+apiJS (Port p)
+  = jsForAPI api
+  $ vanillaJSWith
+  $ defCommonGeneratorOptions
+    { urlPrefix = "http://localhost:" <> T.pack (show p) }
 
-writeJSFiles :: IO ()
-writeJSFiles = do
-  T.writeFile "extension/api.js" apiJS
+writeJSFiles :: Port -> IO ()
+writeJSFiles p = do
+  T.writeFile "extension/api.js" $ apiJS p
 
 commonHeader :: AttributeValue -> Html
 commonHeader jsfile = do

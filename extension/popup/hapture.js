@@ -87,14 +87,16 @@ function submitComment () {
     // TODO focus
     const state = getState();
 
-    browser.runtime.sendMessage({
-        'method': METHOD_CAPTURE_WITH_EXTRAS,
-        'comment': state.comment,
+    var sending = browser.runtime.sendMessage(null,
+        METHOD_CAPTURE_WITH_EXTRAS,
+      { 'comment': state.comment,
         'tags': state.tags,
-    }, () => {
-        console.log("[popup] captured!");
-    }, () => {
-        console.log("[popup] failed to capture!");
+      })
+    sending.then(() => {
+       console.log("[popup] captured!");
+    });
+    sending.catch( () => {
+       console.log("[popup] failed to capture!");
     });
     window.submitted = true;
     window.close();
