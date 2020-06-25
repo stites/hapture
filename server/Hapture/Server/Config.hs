@@ -1,17 +1,12 @@
 {-# LANGUAGE TemplateHaskell #-}
-module Config where
+module Hapture.Server.Config where
 
 import Data.Text
 import Control.Lens (makeLensesFor)
 import Options.Applicative
 import Options.Applicative.Text (textOption)
 
-newtype Port = Port { unPort :: Int }
-
-mkPort :: Int -> Port
-mkPort i
-  | i > 1000 && i < 65000 = Port i
-  | otherwise = error "bad port number"
+import Data.Port
 
 data Config = Config
   { port :: Int

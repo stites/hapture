@@ -6,7 +6,7 @@
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE KindSignatures #-}
-module API
+module Hapture.API
     ( WebLink(..), Response(..)
     , API, api
     ) where

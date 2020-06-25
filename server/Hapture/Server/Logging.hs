@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Logging where
+module Hapture.Server.Logging where
 
 import Control.Exception (bracket)
 import System.IO (stdout)

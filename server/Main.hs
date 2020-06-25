@@ -5,11 +5,11 @@ import Network.Wai.Handler.Warp (run)
 import Servant
 import Control.Monad.Reader (ReaderT(..), runReaderT)
 
-import API
-import App
-import Routes
-import Logging
-import Config
+import Hapture.API
+import Hapture.Server.App
+import Hapture.Server.Routes
+import Hapture.Server.Logging
+import Hapture.Server.Config as Config
 
 
 main :: IO ()

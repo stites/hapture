@@ -12,7 +12,8 @@ import qualified Data.Text.IO as T (writeFile)
 import qualified Data.Text.Lazy as TL
 import Text.Blaze.Html.Renderer.Text (renderHtml)
 
-import API
+import Hapture.API
+import Data.Port
 
 main :: IO ()
 main = do

@@ -58,20 +58,27 @@ common commondeps
     , safe-exceptions
     , singletons
     , orgmode-parse < 0.3
+    , req >= 3
 
 library
   import: base, commondeps
   hs-source-dirs: src
   exposed-modules:
-      API
-      Template
+      Hapture.API
+      Hapture.Template
+      Data.Port
   other-modules:
       Paths_hapture
 
 executable hapture
   import: base, commondeps
   main-is: Main.hs
-  other-modules: Paths_hapture, App, Logging, Routes, Config
+  other-modules:
+    Paths_hapture
+    Hapture.Server.App
+    Hapture.Server.Logging
+    Hapture.Server.Routes
+    Hapture.Server.Config
   hs-source-dirs: server
   ghc-options: -threaded -rtsopts  -with-rtsopts=-N
   build-depends:

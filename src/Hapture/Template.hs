@@ -1,15 +1,16 @@
 -- | hard-coded templates for the time being
 {-# LANGUAGE OverloadedStrings #-}
-module Template where
+module Hapture.Template where
 
 import Data.Maybe
 import Data.OrgMode.Types (Headline(..), StateKeyword(..), Section(..), Plannings(..))
 import Data.Text (Text)
 import qualified Data.Text as T
-import qualified Data.Text.IO as TIO
+-- import qualified Data.Text.IO as TIO
 import qualified Data.OrgMode.Types as Org
 
-import API
+import Hapture.API (WebLink(..))
+import qualified Hapture.API as API
 
 emptysection :: Text -> Section
 emptysection = Section Nothing (Plns mempty) [] mempty mempty []

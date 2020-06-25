@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Routes where
+module Hapture.Server.Routes where
 
 import Data.Text (Text)
 import Katip (Severity(..), logFM, ls)
@@ -9,9 +9,9 @@ import Control.Monad.IO.Class
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
  
-import App
-import API
-import Template
+import Hapture.API
+import Hapture.Template
+import Hapture.Server.App
 
 orgCapture :: WebLink -> App Response
 orgCapture link = do

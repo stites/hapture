@@ -1,7 +1,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-module App where
+module Hapture.Server.App where
 
 import Servant
 import Data.Text (Text)
@@ -12,7 +12,7 @@ import Control.Lens (makeLensesFor, over, view)
 import Katip (LogEnv, Namespace, LogContexts)
 import qualified Katip as K
 
-import Logging
+import Hapture.Server.Logging
 
 data Environment = Environment
   { logNamespace :: !Namespace
