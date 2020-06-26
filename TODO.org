@@ -1,5 +1,7 @@
 #+TITLE: Todo
+* DONE bugfix
 * TODO re-introduce [[https://github.com/oduwsdl/archivenow][archivenow]] functionality with [[https://hackage.haskell.org/package/req][req]]
+* TODO remove unnessecary port config or make port configurable
 * TODO package with nix (haskell.nix and niv? check out nix branch)
 * TODO add home-manager service module
 * TODO rewrite frontend in purescript like MyArx (or use GHCJS)?

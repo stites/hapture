@@ -58,7 +58,7 @@ function getTags(){ // () -> HTMLInputElement
 }
 
 
-function getButton() { // : HTMLElement {
+function getButtonEl() { // : HTMLElement {
     return document.getElementById(BUTTON_ID);
 }
 
@@ -70,13 +70,9 @@ function getState() { // () -> State
 }
 
 function restoreState(state) { // Maybe State -> IO ()
-    console.log(state);
     if (state === null) {
         // comment just relies on default
-        get_options(opts => {
-            getTagsEl().value = opts.default_tags.join(", ");
-            console.log(opts);
-        });
+        get_options(opts => {getTagsEl().value = opts.default_tags.join(", ");});
     } else {
         getCommentEl().value = state.comment;
         getTagsEl().value    = state.tags.join(", ");
@@ -85,19 +81,15 @@ function restoreState(state) { // Maybe State -> IO ()
 
 function submitComment () {
     // TODO focus
-    const state = getState();
-
-    var sending = browser.runtime.sendMessage(null,
-        METHOD_CAPTURE_WITH_EXTRAS,
-      { 'comment': state.comment,
-        'tags': state.tags,
-      })
-    sending.then(() => {
+    browser.runtime.sendMessage({
+        'method': METHOD_CAPTURE_WITH_EXTRAS,
+        'state': getState(),
+    }).then(() => {
        console.log("[popup] captured!");
-    });
-    sending.catch( () => {
+    }, () => {
        console.log("[popup] failed to capture!");
     });
+
     window.submitted = true;
     window.close();
 }
@@ -131,19 +123,14 @@ function setupPage () {
     tags.addEventListener('keydown', ctrlEnterSubmit);
     tags.addEventListener('focus', () => moveCaretToEnd(tags)); // to put cursor to the end of tags when tabbed
 
-    getButton().addEventListener('click', submitComment);
+    getButtonEl().addEventListener('click', submitComment);
 
     window.submitted = false;
-
-    const state = load_state();
-    restoreState(state);
+    restoreState(load_state());
     save_state(null); // clean
-
-    get_options(console.log)
 }
 
 document.addEventListener('DOMContentLoaded', setupPage);
-
 
 window.addEventListener('unload', () => {
     if (!window.submitted) {

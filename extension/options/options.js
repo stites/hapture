@@ -13,18 +13,6 @@ function default_options() {
     };
 }
 
-function urlForPermissionsCheck(url) {
-  // var u = new URL(url);
-  //
-  // u.port = '';
-  // // firefox doesn't like port numbers
-  // // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns#Invalid_match_patterns
-  //
-  // // also toString adds a trailing slash, otherwise Firefox is also confused
-  // return u.toString();
-  return url;
-}
-
 // export function get_options(cb: (Options) => void) {
 function get_options(cb) {
     browser.storage.local.get(null, res => {
@@ -41,14 +29,13 @@ function set_options(opts, cb) {
 
 function getOptions() {
     return new Promise((resolve) => browser.storage.local.get(null, res => {
-        res = {...default_options(), ...res};
-        resolve(res);
+      resolve({...default_options(), ...res});
     }))
 }
 
 function ensurePermissions(endpoint) {
     // shouldn't prompt if we already have the permission
-    return browser.permissions.request({origins: [urlForPermissionsCheck(endpoint),],});
+    return browser.permissions.request({origins: [endpoint,],});
 }
 
 const ENDPOINT_ID       = 'endpoint_id';
