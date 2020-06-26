@@ -1,7 +1,7 @@
 {
 
   "name": "hapture",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "background": {
     "scripts": ["api.js", "background.js"]
   },
