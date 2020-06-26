@@ -6,7 +6,6 @@ import Data.Maybe
 import Data.OrgMode.Types (Headline(..), StateKeyword(..), Section(..), Plannings(..))
 import Data.Text (Text)
 import qualified Data.Text as T
--- import qualified Data.Text.IO as TIO
 import qualified Data.OrgMode.Types as Org
 
 import Hapture.API (WebLink(..))

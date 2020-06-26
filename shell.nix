@@ -6,6 +6,12 @@ let
     ];
   };
 in
-pkgs.mkShell {
-  buildInputs = with pkgs.nodePackages; [ pkgs.nodejs pkgs.purescript bower pulp ];
+with pkgs;
+mkShell {
+  buildInputs = with nodePackages;
+    [
+      nodejs
+      purescript bower pulp
+      haskell.compiler.ghcjs86 closurecompiler
+    ];
 }

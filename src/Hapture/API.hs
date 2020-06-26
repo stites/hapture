@@ -13,8 +13,9 @@ module Hapture.API
 
 import Data.Aeson
 import GHC.Generics
-import Servant
+import Servant.API
 import Data.Text (Text)
+import Data.Proxy
 
 data WebLink = WebLink
   { url   :: !Text

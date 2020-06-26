@@ -16,10 +16,19 @@ import Text.Blaze.Html.Renderer.Text (renderHtml)
 import Hapture.API
 import Data.Port
 
+-- main :: IO ()
+-- main = do
+--   -- writeHTMLFiles
+--   writeJSFiles (mkPort 10046)
+import GHCJS.DOM          (currentDocumentUnchecked)
+import GHCJS.DOM.Document (getBodyUnchecked)
+import GHCJS.DOM.Element  (setInnerHTML)
+
 main :: IO ()
 main = do
-  -- writeHTMLFiles
-  writeJSFiles (mkPort 10046)
+  doc  <- currentDocumentUnchecked
+  body <- getBodyUnchecked doc
+  setInnerHTML body ("Hello Haskell!" :: Text)
 
 apiJS :: Port -> Text
 apiJS (Port p)
