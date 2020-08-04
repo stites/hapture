@@ -24,6 +24,6 @@ package-js: clean-js
 clean-js:
 	rm -rf extension/hapture.zip
 
-install: exe
+install-server: exe
 	cp -f ./result/bin/hapture ~/.local/bin/hapture
 # end
