@@ -9,6 +9,7 @@
 var BUTTON_ID = 'button_id';
 var COMMENT_ID = 'comment_id';
 var TAGS_ID = 'tags_id';
+var SUBTREE_ID = 'subtree_id';
 // from common.js
 var METHOD_CAPTURE_WITH_EXTRAS = 'captureWithExtras';
 
@@ -31,6 +32,18 @@ function get_options(cb) {
 //    comment: string,
 //    tag_str: string,
 //};
+function ensure_string(s) {
+    return s === "" ? null : s;
+}
+function element_string(el) {
+    return ensure_string(el.value);
+}
+function element_by_id(id) {
+    return document.getElementById(id);
+}
+function string_by_id(id) {
+    return element_string(element_by_id(id));
+}
 
 function save_state(state) { // Maybe State -> IO ()
     localStorage.setItem('state', JSON.stringify(state));
@@ -39,24 +52,26 @@ function save_state(state) { // Maybe State -> IO ()
 function load_state() { // () -> State
     return JSON.parse(localStorage.getItem('state') || null);
 }
-
 function getCommentEl() {
     return document.getElementById(COMMENT_ID);
 }
 function getComment() {
-    const comment_str = getCommentEl().value;
-    return comment_str === "" ? null : comment_str;
+    return element_string(getCommentEl());
 }
-
+function getSubtreeEl() {
+    return document.getElementById(SUBTREE_ID);
+}
+function getSubtree() {
+    return element_string(getSubtreeEl());
+}
 function getTagsEl(){ // () -> HTMLInputElement
     return document.getElementById(TAGS_ID);
 }
 
 function getTags(){ // () -> HTMLInputElement
-    const tag_str = getTagsEl().value
-    return tag_str === "" ? [] : tag_str.split(",").map(x => x.trim())
+    const tag_str = getTagsEl().value;
+    return tag_str === "" ? [] : tag_str.split(",").map(x => x.trim());
 }
-
 
 function getButtonEl() { // : HTMLElement {
     return document.getElementById(BUTTON_ID);
@@ -66,6 +81,7 @@ function getState() { // () -> State
     return {
         'comment': getComment(),
         'tags': getTags(),
+        'subtree': getSubtree(),
     };
 }
 
@@ -76,6 +92,7 @@ function restoreState(state) { // Maybe State -> IO ()
     } else {
         getCommentEl().value = state.comment;
         getTagsEl().value    = state.tags.join(", ");
+        getSubtreeEl().value = state.subtree;
     }
 }
 
@@ -119,9 +136,12 @@ function setupPage () {
     comment.focus();
     comment.addEventListener('keydown', ctrlEnterSubmit);
 
-    const tags = getTagsEl();
-    tags.addEventListener('keydown', ctrlEnterSubmit);
-    tags.addEventListener('focus', () => moveCaretToEnd(tags)); // to put cursor to the end of tags when tabbed
+    const tagsEl = getTagsEl();
+    tagsEl.addEventListener('keydown', ctrlEnterSubmit);
+    tagsEl.addEventListener('focus', () => moveCaretToEnd(tagsEl)); // to put cursor to the end of tags when tabbed
+
+    const subtreeEl = getSubtreeEl();
+    subtreeEl.addEventListener('keydown', ctrlEnterSubmit);
 
     getButtonEl().addEventListener('click', submitComment);
 

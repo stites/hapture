@@ -20,6 +20,7 @@ import Data.Proxy
 data WebLink = WebLink
   { url   :: !Text
   , title :: !Text
+  , subtree :: !( Maybe Text )
   , selection :: !( Maybe Text )
   , comment :: !( Maybe Text )
   , tags :: ![Text]

@@ -143,28 +143,29 @@ executable hapture
 --   hs-source-dirs: extension
 --
 
-executable hapture-firefox-api
-  -- import: base
-  main-is: API.hs
-  hs-source-dirs: extension
-  -- We need no-missing-home-modules because cabal and ghcjs do not see that
-  -- the modules are listed in other-modules.
-  ghc-options: -threaded -Wall -Wno-missing-home-modules
-  cpp-options: -DGHCJS_BROWSER
-
-  -- We use dedupe to make code smaller.
-  ghcjs-options: -dedupe
-  build-depends: hapture
-    , servant-js
-    , text
-    , aeson
-    , hashable
-    , safe-exceptions
-    , blaze-html
-
-    , ghcjs-dom >= 0.9
-    , ghcjs-base
-    , ghcjs-prim
-    , base >= 4.12 && < 5
-  ghc-options: -Wall -Wextra
-  default-language: Haskell2010
+-- executable hapture-firefox-api
+--   -- import: base
+--   main-is: API.hs
+--   hs-source-dirs: extension
+--   -- We need no-missing-home-modules because cabal and ghcjs do not see that
+--   -- the modules are listed in other-modules.
+--   ghc-options: -threaded -Wall -Wno-missing-home-modules
+--   cpp-options: -DGHCJS_BROWSER
+--
+--   -- We use dedupe to make code smaller.
+--   ghcjs-options: -dedupe
+--   build-depends: hapture
+--     , servant-js
+--     , text
+--     , aeson
+--     , hashable
+--     , safe-exceptions
+--     , blaze-html
+--
+--     , ghcjs-dom >= 0.9
+--     , ghcjs-base
+--     , ghcjs-prim
+--     , base >= 4.12 && < 5
+--   ghc-options: -Wall -Wextra
+--   default-language: Haskell2010
+--

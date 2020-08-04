@@ -51,7 +51,7 @@ function handleCaptureError(err){
 
 // TODO FIXME ugh. need defensive error handling on the very top...
 // function capture(comment: ?string = null, tag_str: ?string = null) {
-function capture(comment, tags) {
+function capture(comment, tags, subtree) {
     browser.tabs.query({currentWindow: true, active: true }, tabs => {
         const tab = tabs[0];
         if (!tab.url) {
@@ -72,6 +72,7 @@ function capture(comment, tags) {
                         selection: selection,
                         comment: comment,
                         tags: tags,
+                        subtree: subtree,
                     }, handleCaptureSuccess.bind(this, opts.notification), handleCaptureError);
                 });
             });
@@ -81,14 +82,14 @@ function capture(comment, tags) {
 
 browser.commands.onCommand.addListener(function (command) {
     if (command === COMMAND_CAPTURE_SIMPLE) {
-        capture(null, null);
+        capture(null, null, null);
     }
 });
 
 // browser.runtime.onMessage.addListener((message: any, sender: browser$MessageSender, sendResponse) => {  // eslint-disable-line no-unused-vars
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {  // eslint-disable-line no-unused-vars
     if (message.method === METHOD_CAPTURE_WITH_EXTRAS) {
-        capture(message.state.comment, message.state.tags);
+        capture(message.state.comment, message.state.tags, message.state.subtree);
     }
 });
 

@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-
 case "$1" in
-    "") stack exec ./build.sh
+    "") stack --install-ghc runghc --package shake exec ./_shake/buildshake
         ;;
-    *) stack exec ./build.sh -- "$@"
+    *) stack --install-ghc runghc  --package shake exec ./_shake/buildshake -- "$@"
 esac
